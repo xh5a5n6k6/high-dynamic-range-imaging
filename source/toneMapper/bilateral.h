@@ -9,6 +9,7 @@ public:
 	BilateralToneMapper();
 	void solve(cv::Mat hdri, cv::Mat &ldri);
 
+private:
 	float _delta;
 };
 

@@ -13,7 +13,6 @@ namespace shdr {
 class HDRSolver {
 public:
 	HDRSolver(std::string imageDirectory, std::string shutterFilename, std::string crfSolver = "debevecMethod", std::string toneMapper = "");
-	~HDRSolver();
 
 	void solve(cv::Mat &dst);
 
@@ -24,7 +23,7 @@ private:
 	int _findMedian(cv::Mat image);
 
 	std::unique_ptr<CRFSolver> _crfSolver;
-	ToneMapper* _toneMapper;
+	std::unique_ptr<ToneMapper> _toneMapper;
 
 	std::vector<cv::Mat> _images;
 	std::vector<float> _shutterSpeeds;

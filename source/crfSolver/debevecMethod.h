@@ -19,12 +19,12 @@ public:
 
 	void solve(std::vector<cv::Mat> images, std::vector<float> shutterSpeeds, cv::Mat &hdri) override;
 
+private:
+	void _writeHDRImage(cv::Mat hdri);
+
 	float* _weight;
 	int _sampleNumber;
 	float _lambda;
-
-private:
-	void _writeHDRImage(cv::Mat hdri);
 };
 
 inline float Gaussian(int x, float mean, float sigma) {

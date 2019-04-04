@@ -18,17 +18,13 @@ HDRSolver::HDRSolver(std::string imageDirectory, std::string shutterFilename, st
 
 	// decide which toneMapper to use
 	if (toneMapper.compare("photographicGlobal") == 0)
-		_toneMapper = new PhotographicGlobalToneMapper();
+		_toneMapper = std::make_unique<PhotographicGlobalToneMapper>();
 	else if (toneMapper.compare("photographicLocal") == 0)
-		_toneMapper = new PhotographicLocalToneMapper();
+		_toneMapper = std::make_unique<PhotographicLocalToneMapper>();
 	else if (toneMapper.compare("bilateral") == 0)
-		_toneMapper = new BilateralToneMapper();
+		_toneMapper = std::make_unique<BilateralToneMapper>();
 	else
-		_toneMapper = new PhotographicLocalToneMapper();
-}
-
-HDRSolver::~HDRSolver() {
-	delete _toneMapper;
+		_toneMapper = std::make_unique<PhotographicLocalToneMapper>();
 }
 
 void HDRSolver::solve(cv::Mat &dst) {
@@ -80,8 +76,10 @@ void HDRSolver::_alignMTB() {
 	int imageNumber = _images.size();
 	int middle = imageNumber / 2;
 
-	// mainMTB means main median threshold bitmap
-	// mainEB means main exclusive bitmap
+	/*
+		mainMTB means main median threshold bitmap
+		mainEB means main exclusive bitmap
+	*/
 	std::vector<cv::Mat> mainVecMTB, mainVecEB;
 	_calculateBitmap(_images.at(middle), mainVecMTB, mainVecEB);
 
@@ -134,13 +132,7 @@ void HDRSolver::_alignMTB() {
 					cv::bitwise_xor(mainVecMTB.at(_maxMTBLevel - level - 1), tmpMTB, XOR);
 					cv::bitwise_and(XOR, mainVecEB.at(_maxMTBLevel - level - 1), AND);
 					cv::bitwise_and(AND, tmpEB, AND);
-					//Mat XOR = (mainVecMTB.at(_maxMTBLevel - level - 1) | tmpMTB) & (mainVecMTB.at(_maxMTBLevel - level - 1) != tmpMTB);
-					//Mat AND = XOR & mainVecEB.at(_maxMTBLevel - level - 1);
-					//AND = AND & tmpEB;
 
-					//Mat XOR = cv::abs(mainVecMTB.at(_maxMTBLevel - level - 1) - tmpMTB);
-					//Mat AND = XOR.mul(mainVecEB.at(_maxMTBLevel - level - 1));
-					//AND = AND.mul(tmpEB);
 					float error = float(cv::sum(AND)[0]);
 					if (error < maxError) {
 						maxError = error;
