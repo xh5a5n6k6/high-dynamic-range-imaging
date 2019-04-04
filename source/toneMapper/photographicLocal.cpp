@@ -3,7 +3,7 @@
 namespace shdr {
 
 PhotographicLocalToneMapper::PhotographicLocalToneMapper() :
-	_alpha(0.7f), _delta(0.000001f), _phi(8.0f), _epsilon(0.05f), _maxKernelSize(35) {
+	_alpha(0.3f), _delta(0.000001f), _phi(8.0f), _epsilon(0.05f), _maxKernelSize(35) {
 }
 
 void PhotographicLocalToneMapper::solve(cv::Mat hdri, cv::Mat &ldri) {

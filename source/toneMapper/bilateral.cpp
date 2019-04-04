@@ -30,7 +30,7 @@ void BilateralToneMapper::solve(cv::Mat hdri, cv::Mat &ldri) {
 	*/
 	double min, max;
 	cv::minMaxLoc(lowFrequency, &min, &max);
-	float compressionFactor = float(log(5.0) / (max - min));
+	float compressionFactor = float(log(6.0) / (max - min));
 	lowFrequency *= compressionFactor;
 
 	/*
