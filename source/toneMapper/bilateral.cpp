@@ -1,4 +1,4 @@
-#include "bilateral.h"
+#include "toneMapper/bilateral.h"
 
 namespace shdr {
 

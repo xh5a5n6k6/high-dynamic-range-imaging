@@ -1,7 +1,7 @@
 #pragma once
 
-#include "crfSolver.h"
-#include "toneMapper.h"
+#include "core/crfSolver.h"
+#include "core/toneMapper.h"
 
 #include "crfSolver/debevecMethod.h"
 #include "toneMapper/photographicGlobal.h"

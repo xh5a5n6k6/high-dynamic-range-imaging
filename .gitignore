@@ -19,3 +19,9 @@ bld/
 *.user
 *.userosscache
 *.sln.docstates
+
+# cmake related
+[Bb]uild/
+
+# Visual Studio Cache/Options Directory
+.vs/

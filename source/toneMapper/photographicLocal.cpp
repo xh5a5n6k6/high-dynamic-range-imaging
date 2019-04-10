@@ -1,4 +1,4 @@
-#include "photographicLocal.h"
+#include "toneMapper/photographicLocal.h"
 
 namespace shdr {
 

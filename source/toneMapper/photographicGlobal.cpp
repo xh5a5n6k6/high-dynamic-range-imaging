@@ -1,4 +1,4 @@
-#include "photographicGlobal.h"
+#include "toneMapper/photographicGlobal.h"
 
 namespace shdr {
 

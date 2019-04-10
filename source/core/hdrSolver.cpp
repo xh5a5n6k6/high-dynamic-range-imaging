@@ -1,4 +1,4 @@
-#include "hdrSolver.h"
+#include "core/hdrSolver.h"
 
 #include <filesystem>
 
