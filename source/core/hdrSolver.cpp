@@ -4,27 +4,33 @@
 
 namespace shdr {
 
-HDRSolver::HDRSolver(std::string imageDirectory, std::string shutterFilename, std::string crfSolver, std::string toneMapper) : 
-	_maxMTBLevel(5) {
+HDRSolver::HDRSolver(std::string imageDirectory, std::string shutterFilename, std::string crfSolver, std::string toneMapper) :
+    _maxMTBLevel(5) {
 
-	_readData(imageDirectory, shutterFilename);
+    _readData(imageDirectory, shutterFilename);
 
-	// decide which crfSolver to use
-	if (crfSolver.compare("debevecMethod") == 0)
-		_crfSolver = std::make_unique<DebevecMethod>(D_GAUSSIAN, 50, 40.0f);
-	else
-		fprintf(stderr, "Unsupported crf solver\n");
+    // decide which crfSolver to use
+    if (crfSolver.compare("debevecMethod") == 0) {
+        _crfSolver = std::make_unique<DebevecMethod>(D_GAUSSIAN, 50, 40.0f);
+    }
+    else {
+        fprintf(stderr, "Unsupported crf solver\n");
+    }
 
 
-	// decide which toneMapper to use
-	if (toneMapper.compare("photographicGlobal") == 0)
-		_toneMapper = std::make_unique<PhotographicGlobalToneMapper>();
-	else if (toneMapper.compare("photographicLocal") == 0)
-		_toneMapper = std::make_unique<PhotographicLocalToneMapper>();
-	else if (toneMapper.compare("bilateral") == 0)
-		_toneMapper = std::make_unique<BilateralToneMapper>();
-	else
-		_toneMapper = std::make_unique<PhotographicLocalToneMapper>();
+    // decide which toneMapper to use
+    if (toneMapper.compare("photographicGlobal") == 0) {
+        _toneMapper = std::make_unique<PhotographicGlobalToneMapper>();
+    }
+    else if (toneMapper.compare("photographicLocal") == 0) {
+        _toneMapper = std::make_unique<PhotographicLocalToneMapper>();
+    }
+    else if (toneMapper.compare("bilateral") == 0) {
+        _toneMapper = std::make_unique<BilateralToneMapper>();
+    }
+    else {
+        _toneMapper = std::make_unique<PhotographicLocalToneMapper>();
+    }
 }
 
 void HDRSolver::solve(cv::Mat &dst) {
@@ -32,12 +38,6 @@ void HDRSolver::solve(cv::Mat &dst) {
 	_alignMTB();
 	_crfSolver->solve(_images, _shutterSpeeds, hdr);
 	_toneMapper->solve(hdr, dst);
-
-	cv::Mat tmp;
-	std::unique_ptr<ToneMapper> global = std::make_unique<PhotographicGlobalToneMapper>();
-	global->solve(hdr, tmp);
-	std::unique_ptr<ToneMapper> bilateral = std::make_unique<BilateralToneMapper>();
-	bilateral->solve(hdr, tmp);
 }
 
 void HDRSolver::_readData(std::string imageDirectory, std::string shutterFilename) {
@@ -54,8 +54,9 @@ void HDRSolver::_readData(std::string imageDirectory, std::string shutterFilenam
 	}
 	char line[1024];
 	while (fgets(line, 1024, f)) {
-		if (line[strlen(line)] == '\n')
-			line[strlen(line) - 1] = '\0';
+        if (line[strlen(line)] == '\n') {
+            line[strlen(line) - 1] = '\0';
+        }
 
 		float time = std::stof(line);
 		_shutterSpeeds.push_back(time);
@@ -176,7 +177,7 @@ void HDRSolver::_calculateBitmap(cv::Mat image, std::vector<cv::Mat> &vecMTB, st
 			for (int i = 0; i < width; i++) {
 				mtb.at<uchar>(j, i) = (grayImage.at<uchar>(j, i) <= median) ? 0 : 1;
 				eb.at<uchar>(j, i) = (grayImage.at<uchar>(j, i) < median - 4 ||
-									  grayImage.at<uchar>(j, i) > median + 4 )? 1 : 0;
+                                      grayImage.at<uchar>(j, i) > median + 4 )? 1 : 0;
 			}
 		}
 		vecMTB.push_back(mtb);
@@ -195,9 +196,11 @@ int HDRSolver::_findMedian(cv::Mat image) {
 		First we calculate the histogram of image
 	*/
 	int hist[256] = { 0 };
-	for (int j = 0; j < height; j++) 
-		for (int i = 0; i < width; i++) 
-			hist[image.at<uchar>(j, i)] += 1;
+    for (int j = 0; j < height; j++) {
+        for (int i = 0; i < width; i++) {
+            hist[image.at<uchar>(j, i)] += 1;
+        }
+    }
 		
 	/*
 		Second we find cdf that its value is higher than middle (middle means half pixel number)
@@ -205,8 +208,9 @@ int HDRSolver::_findMedian(cv::Mat image) {
 	int sum = 0;
 	for (int i = 0; i < 256; i++) {
 		sum += hist[i];
-		if (sum >= middle)
-			return i;
+        if (sum >= middle) {
+            return i;
+        }
 	}
 
 	fprintf(stderr, "There is a fatal error, it can't find median number\n");

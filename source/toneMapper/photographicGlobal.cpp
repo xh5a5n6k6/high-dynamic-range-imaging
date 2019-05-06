@@ -38,10 +38,7 @@ void PhotographicGlobalToneMapper::solve(cv::Mat hdri, cv::Mat &ldri) {
 	}
 	cv::merge(vecMat, ldri);
 	ldri *= 255.0f;
-
-	cv::Mat ldr;
-	ldri.convertTo(ldr, CV_8UC3);
-	cv::imwrite("hdr_photographicGlobal.png", ldr);
+	ldri.convertTo(ldri, CV_8UC3);
 
 	fprintf(stderr, "# Finish to implement tone mapping\n");
 }

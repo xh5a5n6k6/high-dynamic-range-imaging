@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
 project(Simple-HDR)
 
-# In Unix
+# In command line
 # cmake -DCMAKE_GENERATOR_PLATFORM=x64 ..
 set(CMAKE_CONFIGURATION_TYPES "Release")
 
@@ -21,3 +21,8 @@ include_directories(${INCLUDE_DIR})
 file(GLOB_RECURSE HEADER_DIR "./source/*.h")
 file(GLOB_RECURSE SRC_DIR "./source/*.cpp")
 add_executable(${PROJECT_NAME} ${HEADER_DIR} ${SRC_DIR})
+
+# Link OpenCV dependency
+find_package(OpenCV REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
+target_link_libraries(Simple-HDR ${OpenCV_LIBS})

@@ -1,18 +1,16 @@
 #pragma once
 
-#include "core/crfSolver.h"
-#include "core/toneMapper.h"
-
 #include "crfSolver/debevecMethod.h"
+#include "toneMapper/bilateral.h"
 #include "toneMapper/photographicGlobal.h"
 #include "toneMapper/photographicLocal.h"
-#include "toneMapper/bilateral.h"
 
 namespace shdr {
 
 class HDRSolver {
 public:
-	HDRSolver(std::string imageDirectory, std::string shutterFilename, std::string crfSolver = "debevecMethod", std::string toneMapper = "");
+	HDRSolver(std::string imageDirectory, std::string shutterFilename, 
+              std::string crfSolver = "debevecMethod", std::string toneMapper = "photographicLocal");
 
 	void solve(cv::Mat &dst);
 

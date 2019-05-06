@@ -2,7 +2,7 @@
 
 #include <random>
 
-#define _DRAW_HDR_IMAGE_
+//#define _DRAW_HDR_IMAGE_
 
 namespace shdr {
 
@@ -10,20 +10,25 @@ DebevecMethod::DebevecMethod() :
 	_sampleNumber(50), _lambda(40.0f) {
 
 	_weight = new float[256];
-	for (int x = 0; x < 256; x++) 
-		_weight[x] = Gaussian(x, 128.0f, 128.0f);
+    for (int x = 0; x < 256; x++) {
+        _weight[x] = Gaussian(x, 128.0f, 128.0f);
+    }
 }
 
 DebevecMethod::DebevecMethod(DebevecWeightedFunctionType type, int sampleNumber, float lambda) :
 	_sampleNumber(sampleNumber), _lambda(lambda) {
 
 	_weight = new float[256];
-	if (type == D_GAUSSIAN)
-		for (int x = 0; x < 256; x++)
-			_weight[x] = Gaussian(x, 128.0f, 128.0f);
-	else
-		for (int x = 0; x < 256; x++)
-			_weight[x] = 1.0f / 256.0f;
+    if (type == D_GAUSSIAN) {
+        for (int x = 0; x < 256; x++) {
+            _weight[x] = Gaussian(x, 128.0f, 128.0f);
+        }
+    }
+    else {
+        for (int x = 0; x < 256; x++) {
+            _weight[x] = 1.0f / 256.0f;
+        }
+    }
 }
 
 DebevecMethod::~DebevecMethod() {
@@ -97,8 +102,9 @@ void DebevecMethod::solve(std::vector<cv::Mat> images, std::vector<float> shutte
 		/*
 			First 256 values are what we want, i.e. g(0) ~ g(255)
 		*/
-		for (int j = 0; j < 256; j++)
-			g.at<cv::Vec3f>(j, 0)[c] = x.at<float>(j, 0);
+        for (int j = 0; j < 256; j++) {
+            g.at<cv::Vec3f>(j, 0)[c] = x.at<float>(j, 0);
+        }
 	}
 
 	/*
@@ -144,7 +150,7 @@ void DebevecMethod::solve(std::vector<cv::Mat> images, std::vector<float> shutte
 }
 
 void DebevecMethod::_writeHDRImage(cv::Mat hdri) {
-	cv::imwrite("hdri.hdr", hdri);
+	cv::imwrite("./hdr.hdr", hdri);
 }
 
 } // namespace shdr

@@ -32,10 +32,7 @@ void PhotographicLocalToneMapper::solve(cv::Mat hdri, cv::Mat &ldri) {
 	}
 	cv::merge(vecMat, ldri);
 	ldri *= 255.0f;
-
-	cv::Mat ldr;
-	ldri.convertTo(ldr, CV_8UC3);
-	cv::imwrite("hdr_photographicLocal.png", ldr);
+	ldri.convertTo(ldri, CV_8UC3);
 
 	fprintf(stderr, "# Finish to implement tone mapping\n");
 }
@@ -78,8 +75,9 @@ void PhotographicLocalToneMapper::_localOperator(cv::Mat lm, cv::Mat &lsmax) {
 						lsmax.at<float>(j, i) = ls.at<float>(j, i);
 					}
 				}
-				else
-					index.at<uchar>(j, i) = 1;
+                else {
+                    index.at<uchar>(j, i) = 1;
+                }
 			}
 		}
 	}
