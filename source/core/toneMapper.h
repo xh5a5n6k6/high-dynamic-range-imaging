@@ -8,7 +8,7 @@ namespace shdr {
 
 class ToneMapper {
 public:
-	virtual void solve(cv::Mat hdri, cv::Mat &ldri) = 0;
+    virtual void solve(cv::Mat hdri, cv::Mat &ldri) = 0;
 };
 
 } // namespace shdr

@@ -6,11 +6,11 @@ namespace shdr {
 
 class BilateralToneMapper : public ToneMapper {
 public:
-	BilateralToneMapper();
-	void solve(cv::Mat hdri, cv::Mat &ldri);
+    BilateralToneMapper();
+    void solve(cv::Mat hdri, cv::Mat &ldri);
 
 private:
-	float _delta;
+    float _delta;
 };
 
 } // namespace shdr
