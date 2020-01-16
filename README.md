@@ -7,23 +7,26 @@ This project is for 2019 Digital Visual Effects Assignment 1 at NTU, where is ht
 
 The purpose of this project is to generate high-dynamic-range image from multiple low-dynamic-range photographs. This project has two parts, radiance map reconstruction and tone mapping.
 
-## Dependency
-* OpenCV：3.0+
-
 ## Build
 This project is written in C++17, first check if your compiler supports it.
+
+### Dependency
+* OpenCV: 3.0+
 
 ### Windows + MSVC
 Just use standard cmake GUI to build it.
 
 ### Linux
 Follow steps below (make sure you are in the root directory of this project)
-`$ mkdir build
+
+```
+$ mkdir build
 $ cd build
 $ cmake ../
-$ make`
+$ make
+```
 
 ## License
-This project is under the [MIT]((https://opensource.org/licenses/MIT)) license.
+This project is under the [MIT](https://opensource.org/licenses/MIT) license.
 
 It also includes some test data in the `./data/memorial/` folder, and those images taken by Kevin McCoy are under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) license.
