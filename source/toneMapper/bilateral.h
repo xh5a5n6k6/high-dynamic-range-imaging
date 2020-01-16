@@ -7,7 +7,10 @@ namespace shdr {
 class BilateralToneMapper : public ToneMapper {
 public:
     BilateralToneMapper();
-    void solve(cv::Mat hdri, cv::Mat &ldri);
+    BilateralToneMapper(const float delta);
+
+    void solve(const cv::Mat& hdri, 
+               cv::Mat* const out_ldri) const override;
 
 private:
     float _delta;

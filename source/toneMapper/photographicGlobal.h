@@ -7,10 +7,14 @@ namespace shdr {
 class PhotographicGlobalToneMapper : public ToneMapper {
 public:
     PhotographicGlobalToneMapper();
-    void solve(cv::Mat hdri, cv::Mat &ldri);
+    PhotographicGlobalToneMapper(const float alpha, const float delta);
+
+    void solve(const cv::Mat& hdri, 
+               cv::Mat* const out_ldri) const override;
 
 private:
-    float _delta, _alpha;
+    float _alpha;
+    float _delta;
 };
 
 } // namespace shdr

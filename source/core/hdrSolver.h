@@ -1,42 +1,40 @@
 #pragma once
 
-#include "crfSolver/debevecMethod.h"
-#include "toneMapper/bilateral.h"
-#include "toneMapper/photographicGlobal.h"
-#include "toneMapper/photographicLocal.h"
+#include <memory>
+#include <opencv2/opencv.hpp>
+#include <string>
+#include <vector>
 
 namespace shdr {
 
-class HDRSolver {
-public:
-    HDRSolver(std::string imageDirectory, std::string shutterFilename, 
-              std::string crfSolver = "debevecMethod", std::string toneMapper = "photographicLocal");
+class CrfSolver;
+class ToneMapper;
 
-    void solve(cv::Mat &dst);
+class HdrSolver {
+public:
+    HdrSolver(const std::string& imageDirectory, 
+              const std::string& shutterFilename,
+              const std::string& crfSolver  = "debevec", 
+              const std::string& toneMapper = "bilateral");
+    ~HdrSolver();
+
+    void solve(cv::Mat* const out_hdri);
 
 private:
-    void _readData(std::string imageDirectory, std::string shutterFilename);
+    void _readData(const std::string& imageDirectory, const std::string& shutterFilename);
     void _alignMTB();
-    void _calculateBitmap(cv::Mat image, std::vector<cv::Mat> &mtb, std::vector<cv::Mat> &eb);
-    int _findMedian(cv::Mat image);
+    void _calculateBitmap(const cv::Mat&              image, 
+                          std::vector<cv::Mat>* const out_vecMtb, 
+                          std::vector<cv::Mat>* const out_vecEb) const;
+    int  _findMedian(const cv::Mat& image) const;
 
-    std::unique_ptr<CRFSolver> _crfSolver;
+    std::unique_ptr<CrfSolver>  _crfSolver;
     std::unique_ptr<ToneMapper> _toneMapper;
 
     std::vector<cv::Mat> _images;
-    std::vector<float> _shutterSpeeds;
+    std::vector<float>   _shutterSpeeds;
 
-    int _maxMTBLevel;
+    static const int _maxMtbLevel = 5;
 };
-
-inline cv::Mat GetTranslationMatrix(int tx, int ty) {
-    cv::Mat m = cv::Mat::zeros(cv::Size(3, 2), CV_32FC1);
-    m.at<float>(0, 0) = 1.0f; 
-    m.at<float>(0, 2) = float(tx);
-    m.at<float>(1, 1) = 1.0f;
-    m.at<float>(1, 2) = float(ty);
-
-    return m;
-}
 
 } // namespace shdr

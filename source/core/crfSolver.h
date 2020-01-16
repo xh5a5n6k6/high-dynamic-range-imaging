@@ -1,14 +1,20 @@
 #pragma once
 
-#include <vector>
-
 #include <opencv2/opencv.hpp>
+#include <vector>
 
 namespace shdr {
 
-class CRFSolver {
+/*
+    CrfSolver: Camera Response Function Solver
+
+
+*/
+class CrfSolver {
 public:
-    virtual void solve(std::vector<cv::Mat> images, std::vector<float> shutterSpeeds, cv::Mat &hdri) = 0;
+    virtual void solve(const std::vector<cv::Mat>& images, 
+                       const std::vector<float>&   shutterSpeeds, 
+                       cv::Mat* const              out_hdri) const = 0;
 };
 
 } // namespace shdr

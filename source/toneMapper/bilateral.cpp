@@ -1,16 +1,30 @@
 #include "toneMapper/bilateral.h"
 
+#include <cmath>
+#include <iostream>
+
 namespace shdr {
 
 BilateralToneMapper::BilateralToneMapper() :
-    _delta(0.000001f) {
+    BilateralToneMapper(0.000001f) {
 }
 
-void BilateralToneMapper::solve(cv::Mat hdri, cv::Mat &ldri) {
-    fprintf(stderr, "# Begin to implement tone mapping using bilateral method\n");
+BilateralToneMapper::BilateralToneMapper(const float delta) :
+    _delta(delta) {
+}
 
-    ldri = hdri.clone();
-    cv::Mat intensity, logIntensity, lowFrequency, highFrequency, newIntensity;
+void BilateralToneMapper::solve(const cv::Mat& hdri, 
+                                cv::Mat* const out_ldri) const {
+
+    std::cout << "# Begin to implement tone mapping using bilateral method"
+              << std::endl;
+
+    cv::Mat ldri = hdri.clone();
+    cv::Mat intensity; 
+    cv::Mat logIntensity;
+    cv::Mat lowFrequency;
+    cv::Mat highFrequency;
+    cv::Mat newIntensity;
 
     /*
         We need to separate intensity & color,
@@ -28,9 +42,11 @@ void BilateralToneMapper::solve(cv::Mat hdri, cv::Mat &ldri) {
     /*
         Now we need to reduce contrast in low frequency image
     */
-    double min, max;
+    double min;
+    double max;
     cv::minMaxLoc(lowFrequency, &min, &max);
-    float compressionFactor = float(log(6.0) / (max - min));
+
+    const float compressionFactor = static_cast<float>(std::log(6.0) / (max - min));
     lowFrequency *= compressionFactor;
 
     /*
@@ -43,18 +59,21 @@ void BilateralToneMapper::solve(cv::Mat hdri, cv::Mat &ldri) {
     /*
         Recalculate color for each channel
     */
-    float logScale = 1.0f / float(exp(compressionFactor * max));
+    const float logScale = 1.0f / static_cast<float>(std::exp(compressionFactor * max));
     std::vector<cv::Mat> vecMat;
     cv::split(ldri, vecMat);
-    for (int c = 0; c < 3; c++) {
-        cv::divide(vecMat.at(c), intensity, vecMat.at(c));
-        vecMat.at(c) = vecMat.at(c).mul(newIntensity) * logScale;
+    for (int c = 0; c < 3; ++c) {
+        cv::divide(vecMat[c], intensity, vecMat[c]);
+        vecMat[c] = vecMat[c].mul(newIntensity) * logScale;
     }
     cv::merge(vecMat, ldri);
     ldri *= 255.0f;
     ldri.convertTo(ldri, CV_8UC3);
 
-    fprintf(stderr, "# Finish to implement tone mapping\n");
+    *out_ldri = ldri;
+
+    std::cout << "# Finish implementing tone mapping"
+              << std::endl;
 }
 
 } // namespace shdr
