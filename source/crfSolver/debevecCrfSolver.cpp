@@ -1,4 +1,4 @@
-#include "crfSolver/DebevecCrfSolver.h"
+#include "crfSolver/debevecCrfSolver.h"
 
 #include "mathUtils.h"
 
