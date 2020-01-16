@@ -1,4 +1,4 @@
-#include "toneMapper/photographicLocal.h"
+#include "toneMapper/photographicLocalToneMapper.h"
 
 #include <cmath>
 #include <iostream>

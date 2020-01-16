@@ -2,9 +2,9 @@
 
 #include "crfSolver/debevecCrfSolver.h"
 #include "mathUtils.h"
-#include "toneMapper/bilateral.h"
-#include "toneMapper/photographicGlobal.h"
-#include "toneMapper/photographicLocal.h"
+#include "toneMapper/bilateralToneMapper.h"
+#include "toneMapper/photographicGlobalToneMapper.h"
+#include "toneMapper/photographicLocalToneMapper.h"
 
 #include <algorithm>
 #include <cstdio>
@@ -25,7 +25,11 @@ namespace shdr {
 HdrSolver::HdrSolver(const std::string& imageDirectory, 
                      const std::string& shutterFilename, 
                      const std::string& crfSolver, 
-                     const std::string& toneMapper) {
+                     const std::string& toneMapper) :
+    _images(),
+    _shutterSpeeds(),
+    _crfSolver(nullptr),
+    _toneMapper(nullptr) {
 
     _readData(imageDirectory, shutterFilename);
 

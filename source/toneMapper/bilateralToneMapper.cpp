@@ -1,4 +1,4 @@
-#include "toneMapper/bilateral.h"
+#include "toneMapper/bilateralToneMapper.h"
 
 #include <cmath>
 #include <iostream>

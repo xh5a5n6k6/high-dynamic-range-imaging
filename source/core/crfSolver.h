@@ -8,7 +8,13 @@ namespace shdr {
 /*
     CrfSolver: Camera Response Function Solver
 
+    Because camera can not capture the full dynamic 
+    range, we want to use multiple images with different 
+    shutter speeds to reconstruct the radiance map.
 
+    CrfSolver's goal is to recover response curve of 
+    the camera, and then we can use these information
+    to reconstruct the radiance map (hdr image).
 */
 class CrfSolver {
 public:

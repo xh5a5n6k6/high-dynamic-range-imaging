@@ -139,7 +139,7 @@ void DebevecCrfSolver::solve(const std::vector<cv::Mat>& images,
         for (int j = 0; j < height; ++j) {
             // image x
             for (int i = 0; i < width; ++i) {
-				// three color channel
+                // three color channel
                 for (int c = 0; c < 3; ++c) {
                     const int   z   = static_cast<int>(nowImage.at<cv::Vec3b>(j, i)[c]);
                     const float lnE = g.at<cv::Vec3f>(z, 0)[c] - std::log(shutterSpeeds[n]);

@@ -28,11 +28,11 @@ private:
                           std::vector<cv::Mat>* const out_vecEb) const;
     int  _findMedian(const cv::Mat& image) const;
 
-    std::unique_ptr<CrfSolver>  _crfSolver;
-    std::unique_ptr<ToneMapper> _toneMapper;
-
     std::vector<cv::Mat> _images;
     std::vector<float>   _shutterSpeeds;
+
+    std::unique_ptr<CrfSolver>  _crfSolver;
+    std::unique_ptr<ToneMapper> _toneMapper;
 
     static const int _maxMtbLevel = 5;
 };
