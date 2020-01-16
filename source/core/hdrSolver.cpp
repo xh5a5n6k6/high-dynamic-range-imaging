@@ -6,6 +6,7 @@
 #include "toneMapper/photographicGlobal.h"
 #include "toneMapper/photographicLocal.h"
 
+#include <algorithm>
 #include <cstdio>
 #include <iostream>
 #include <limits>
@@ -97,8 +98,24 @@ void HdrSolver::_readData(const std::string& imageDirectory, const std::string& 
     /*
         Second, we read image data from files
     */
+    std::cout << "# Begin to read images"
+              << std::endl;
+
+    std::vector<std::string> imageFilenames;
+    imageFilenames.reserve(_shutterSpeeds.size());
     for (const auto& entry : std_fs::directory_iterator(imageDirectory)) {
-        const cv::Mat img = cv::imread(entry.path().string());
+        imageFilenames.push_back(entry.path().string());
+    }
+
+    // Because filename loading order may be different from standard order,
+    // we need to sort it first to make sure its order fits shutterspeed's order.
+    std::sort(imageFilenames.begin(), imageFilenames.end());
+
+    for (std::size_t i = 0; i < imageFilenames.size(); ++i) {
+        std::cout << "    Image " << (i + 1) << ": " << imageFilenames[i]
+                  << std::endl;
+
+        const cv::Mat img = cv::imread(imageFilenames[i]);
         _images.push_back(img);
     }
 
