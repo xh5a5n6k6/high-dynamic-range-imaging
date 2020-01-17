@@ -13,8 +13,8 @@ public:
                                 const float epsilon,
                                 const int   maxKernelSize);
 
-    void solve(const cv::Mat& hdri, 
-               cv::Mat* const out_ldri) const override;
+    void map(const cv::Mat& hdri, 
+             cv::Mat* const out_ldri) const override;
 
 private:
     void _localOperator(const cv::Mat& lm, cv::Mat* const out_lsmax) const;

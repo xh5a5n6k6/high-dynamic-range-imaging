@@ -9,8 +9,8 @@ public:
     PhotographicGlobalToneMapper();
     PhotographicGlobalToneMapper(const float alpha, const float delta);
 
-    void solve(const cv::Mat& hdri, 
-               cv::Mat* const out_ldri) const override;
+    void map(const cv::Mat& hdri, 
+             cv::Mat* const out_ldri) const override;
 
 private:
     float _alpha;

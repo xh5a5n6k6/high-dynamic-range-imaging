@@ -24,12 +24,10 @@ public:
                      const int      numSamples, 
                      const float    lambda);
 
-    void solve(const std::vector<cv::Mat>& images, 
-               const std::vector<float>&   shutterSpeeds, 
-               cv::Mat* const              out_hdri) const override;
-
 private:
-    void _writeHDRImage(const cv::Mat& hdri) const;
+    void _solveImpl(const std::vector<cv::Mat>& images,
+                    const std::vector<float>&   shutterSpeeds,
+                    cv::Mat* const              out_hdri) const override;
 
     std::unique_ptr<float[]> _weight;
     int                      _numSamples;

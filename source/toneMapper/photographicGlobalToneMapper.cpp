@@ -14,8 +14,8 @@ PhotographicGlobalToneMapper::PhotographicGlobalToneMapper(const float alpha, co
     _delta(delta) {
 }
 
-void PhotographicGlobalToneMapper::solve(const cv::Mat& hdri, 
-                                         cv::Mat* const out_ldri) const {
+void PhotographicGlobalToneMapper::map(const cv::Mat& hdri, 
+                                       cv::Mat* const out_ldri) const {
 
     std::cout << "# Begin to implement tone mapping using photographic global method"
               << std::endl;

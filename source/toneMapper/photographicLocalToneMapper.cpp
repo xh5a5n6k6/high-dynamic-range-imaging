@@ -21,8 +21,8 @@ PhotographicLocalToneMapper::PhotographicLocalToneMapper(const float alpha,
     _maxKernelSize(maxKernelSize) {
 }
 
-void PhotographicLocalToneMapper::solve(const cv::Mat& hdri, 
-                                        cv::Mat* const out_ldri) const {
+void PhotographicLocalToneMapper::map(const cv::Mat& hdri, 
+                                      cv::Mat* const out_ldri) const {
 
     std::cout << "# Begin to implement tone mapping using photographic local method"
               << std::endl;

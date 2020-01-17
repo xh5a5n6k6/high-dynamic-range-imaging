@@ -13,8 +13,8 @@ BilateralToneMapper::BilateralToneMapper(const float delta) :
     _delta(delta) {
 }
 
-void BilateralToneMapper::solve(const cv::Mat& hdri, 
-                                cv::Mat* const out_ldri) const {
+void BilateralToneMapper::map(const cv::Mat& hdri, 
+                              cv::Mat* const out_ldri) const {
 
     std::cout << "# Begin to implement tone mapping using bilateral method"
               << std::endl;

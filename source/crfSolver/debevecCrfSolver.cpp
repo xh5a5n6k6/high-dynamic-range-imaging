@@ -4,8 +4,6 @@
 
 #include <iostream>
 
-#define _DRAW_HDR_IMAGE_
-
 namespace shdr {
 
 DebevecCrfSolver::DebevecCrfSolver() :
@@ -40,9 +38,9 @@ DebevecCrfSolver::DebevecCrfSolver(const DwfType& type,
     }
 }
 
-void DebevecCrfSolver::solve(const std::vector<cv::Mat>& images, 
-                             const std::vector<float>&   shutterSpeeds, 
-                             cv::Mat* const              out_hdri) const {
+void DebevecCrfSolver::_solveImpl(const std::vector<cv::Mat>& images, 
+                                  const std::vector<float>&   shutterSpeeds, 
+                                  cv::Mat* const              out_hdri) const {
 
     std::cout << "# Begin to reconstruct CRF using Debevec's method"
               << std::endl;
@@ -161,15 +159,6 @@ void DebevecCrfSolver::solve(const std::vector<cv::Mat>& images,
 
     std::cout << "# Finish reconstructing CRF"
               << std::endl;
-
-#ifdef _DRAW_HDR_IMAGE_
-
-    _writeHDRImage(hdri);
-#endif
-}
-
-void DebevecCrfSolver::_writeHDRImage(const cv::Mat& hdri) const {
-    cv::imwrite("./hdr.hdr", hdri);
 }
 
 } // namespace shdr
