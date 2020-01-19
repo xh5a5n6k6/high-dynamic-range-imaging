@@ -97,10 +97,10 @@ void DebevecCrfSolver::_solveImpl(const std::vector<cv::Mat>& images,
         }
         A.at<float>(line, 127) = 1.0f;
         ++line;
-        for (int i = 1; i < 255; ++i, ++line) {
-            A.at<float>(line, i - 1) = _lambda * _weight[i];
-            A.at<float>(line, i)     = -2.0f * _lambda * _weight[i];
-            A.at<float>(line, i + 1) = _lambda * _weight[i];
+        for (int ix = 1; ix < 255; ++ix, ++line) {
+            A.at<float>(line, ix - 1) = _lambda * _weight[ix];
+            A.at<float>(line, ix)     = -2.0f * _lambda * _weight[ix];
+            A.at<float>(line, ix + 1) = _lambda * _weight[ix];
         }
 
         /*
@@ -113,8 +113,8 @@ void DebevecCrfSolver::_solveImpl(const std::vector<cv::Mat>& images,
         /*
             First 256 values are what we want, i.e. g(0) ~ g(255)
         */
-        for (int j = 0; j < 256; ++j) {
-            g.at<cv::Vec3f>(j, 0)[c] = x.at<float>(j, 0);
+        for (int iy = 0; iy < 256; ++iy) {
+            g.at<cv::Vec3f>(iy, 0)[c] = x.at<float>(iy, 0);
         }
     }
 
@@ -134,16 +134,16 @@ void DebevecCrfSolver::_solveImpl(const std::vector<cv::Mat>& images,
     for (int n = 0; n < numImages; ++n) {
         const cv::Mat& nowImage = images[n];
         // image y
-        for (int j = 0; j < height; ++j) {
+        for (int iy = 0; iy < height; ++iy) {
             // image x
-            for (int i = 0; i < width; ++i) {
+            for (int ix = 0; ix < width; ++ix) {
                 // three color channel
                 for (int c = 0; c < 3; ++c) {
-                    const int   z   = static_cast<int>(nowImage.at<cv::Vec3b>(j, i)[c]);
+                    const int   z   = static_cast<int>(nowImage.at<cv::Vec3b>(iy, ix)[c]);
                     const float lnE = g.at<cv::Vec3f>(z, 0)[c] - std::log(shutterSpeeds[n]);
 
-                    hdri.at<cv::Vec3f>(j, i)[c]      += _weight[z] * lnE;
-                    weightSum.at<cv::Vec3f>(j, i)[c] += _weight[z];
+                    hdri.at<cv::Vec3f>(iy, ix)[c]      += _weight[z] * lnE;
+                    weightSum.at<cv::Vec3f>(iy, ix)[c] += _weight[z];
                 }
             }
         }

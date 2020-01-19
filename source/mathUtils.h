@@ -50,9 +50,9 @@ inline void getTranslationMatrix(const int      tx,
 
     cv::Mat mat = cv::Mat::zeros(cv::Size(3, 2), CV_32FC1);
     mat.at<float>(0, 0) = 1.0f;
-    mat.at<float>(0, 2) = float(tx);
+    mat.at<float>(0, 2) = static_cast<float>(tx);
     mat.at<float>(1, 1) = 1.0f;
-    mat.at<float>(1, 2) = float(ty);
+    mat.at<float>(1, 2) = static_cast<float>(ty);
 
     *out_mat = mat;
 }

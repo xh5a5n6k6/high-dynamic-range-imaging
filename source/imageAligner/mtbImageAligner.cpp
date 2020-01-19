@@ -147,11 +147,11 @@ void MtbImageAligner::_calculateBitmap(const cv::Mat&              image,
             use median to be the threshold,
             and check if pixel value is near median
         */
-        for (int j = 0; j < height; ++j) {
-            for (int i = 0; i < width; ++i) {
-                mtb.at<uchar>(j, i) = (grayImage.at<uchar>(j, i) <= median) ? 0 : 1;
-                eb.at<uchar>(j, i)  = (grayImage.at<uchar>(j, i) < median - 4 ||
-                                       grayImage.at<uchar>(j, i) > median + 4) ? 1 : 0;
+        for (int iy = 0; iy < height; ++iy) {
+            for (int ix = 0; ix < width; ++ix) {
+                mtb.at<uchar>(iy, ix) = (grayImage.at<uchar>(iy, ix) <= median) ? 0 : 1;
+                eb.at<uchar>(iy, ix)  = (grayImage.at<uchar>(iy, ix) < median - 4 ||
+                                         grayImage.at<uchar>(iy, ix) > median + 4) ? 1 : 0;
             }
         }
 
@@ -171,9 +171,9 @@ int MtbImageAligner::_findMedian(const cv::Mat& image) const {
         First we calculate the histogram of image
     */
     int hist[256] = { 0 };
-    for (int j = 0; j < height; ++j) {
-        for (int i = 0; i < width; ++i) {
-            hist[image.at<uchar>(j, i)] += 1;
+    for (int iy = 0; iy < height; ++iy) {
+        for (int ix = 0; ix < width; ++ix) {
+            hist[image.at<uchar>(iy, ix)] += 1;
         }
     }
 

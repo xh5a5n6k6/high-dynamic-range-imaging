@@ -87,7 +87,7 @@ void PhotographicLocalToneMapper::_localOperator(const cv::Mat& lm, cv::Mat* con
     cv::Mat index = cv::Mat::zeros(lm.size(), CV_8UC1);
     cv::Mat vs;
     // for each kernel size (blur image)
-    for (int n = 0; n < numKernels - 1; n++) {
+    for (int n = 0; n < numKernels - 1; ++n) {
         const int s = 1 + 2 * n;
         
         const cv::Mat up   = lblur[n] - lblur[n + 1];
@@ -96,16 +96,16 @@ void PhotographicLocalToneMapper::_localOperator(const cv::Mat& lm, cv::Mat* con
         vs = cv::abs(vs);
 
         // check if vs < epsilon
-        for (int j = 0; j < height; ++j) {
-            for (int i = 0; i < width; ++i) {
-                if (vs.at<float>(j, i) < _epsilon) {
-                    if (index.at<uchar>(j, i) == 0) {
+        for (int iy = 0; iy < height; ++iy) {
+            for (int ix = 0; ix < width; ++ix) {
+                if (vs.at<float>(iy, ix) < _epsilon) {
+                    if (index.at<uchar>(iy, ix) == 0) {
                         const cv::Mat& ls = lblur[n];
-                        lsmax.at<float>(j, i) = ls.at<float>(j, i);
+                        lsmax.at<float>(iy, ix) = ls.at<float>(iy, ix);
                     }
                 }
                 else {
-                    index.at<uchar>(j, i) = 1;
+                    index.at<uchar>(iy, ix) = 1;
                 }
             }
         }
