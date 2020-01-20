@@ -6,7 +6,7 @@ using namespace shdr;
 
 int main(int argc, char* argv[]) {
     if (argc == 1) {
-        std::cout << "Simple-HDR -h for further informations."
+        std::cout << "Simple-HDR -h for further information."
                   << std::endl;
 
         return 0;

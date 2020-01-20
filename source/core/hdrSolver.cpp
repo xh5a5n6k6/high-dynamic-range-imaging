@@ -32,14 +32,13 @@ HdrSolver::HdrSolver(const std::string& imageDirectory,
     _crfSolver(nullptr),
     _toneMapper(nullptr) {
 
-    _readData(imageDirectory, shutterFilename);
-
     // decide which imageAligner to use
     if (imageAligner == "mtb") {
         _imageAligner = std::make_unique<MtbImageAligner>();
     }
     else {
-        std::cout << "Unknown imageAligner type, use mtb instead"
+        std::cout << "Unknown imageAligner type: <"
+                  << imageAligner << ">, use <mtb> instead"
                   << std::endl;
 
         _imageAligner = std::make_unique<MtbImageAligner>();
@@ -50,12 +49,12 @@ HdrSolver::HdrSolver(const std::string& imageDirectory,
         _crfSolver = std::make_unique<DebevecCrfSolver>(DwfType::D_GAUSSIAN, 50, 40.0f);
     }
     else {
-        std::cout << "Unknown crfSolver type, use debevec instead"
+        std::cout << "Unknown crfSolver type: <"
+                  << crfSolver << ">, use <debevec> instead"
                   << std::endl;
         
         _crfSolver = std::make_unique<DebevecCrfSolver>(DwfType::D_GAUSSIAN, 50, 40.0f);
     }
-
 
     // decide which toneMapper to use
     if (toneMapper == "photographic-global") {
@@ -68,11 +67,15 @@ HdrSolver::HdrSolver(const std::string& imageDirectory,
         _toneMapper = std::make_unique<BilateralToneMapper>();
     }
     else {
-        std::cout << "Unknown toneMapper type, use photographic-local instead"
+        std::cout << "Unknown toneMapper type: <"
+                  << toneMapper << ">, use <bilateral> instead"
                   << std::endl;
 
-        _toneMapper = std::make_unique<PhotographicLocalToneMapper>();
+        _toneMapper = std::make_unique<BilateralToneMapper>();
     }
+
+    // read input data (images and shutterspeeds)
+    _readData(imageDirectory, shutterFilename);
 }
 
 HdrSolver::~HdrSolver() = default;
