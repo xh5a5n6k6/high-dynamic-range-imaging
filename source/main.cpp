@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
     else if (argc == 2 &&
              std::string(argv[1]) == "-h") {
 
-        fprintf(stdout, R"(Simple-HDR, copyright (c)2019-2020 Chia-Yu, Chou
+        fprintf(stdout, R"(Simple-HDR, copyright (c)2019-2020 Chia-Yu Chou
 
 [<options>] <images directory path> <shutterspeed file path>
 
@@ -72,7 +72,7 @@ Options:
             }
         }
 
-        std::cout << "Simple-HDR, copyright (c)2019-2020 Chia-Yu, Chou\n"
+        std::cout << "Simple-HDR, copyright (c)2019-2020 Chia-Yu Chou\n"
                   << std::endl;
 
         cv::Mat hdri;
