@@ -11,6 +11,7 @@ The purpose of this project is to generate high-dynamic-range image from multipl
 This project is written in C++17, first check if your compiler supports it.
 
 ### Dependency
+* CMake: 3.1+
 * OpenCV: 3.0+
 
 ### Windows + MSVC
